@@ -49,19 +49,19 @@ def crypto_parser(symbol: str):
     json_data = json.loads(r.text)
     for x in json_data["data"]["cryptoCurrencyList"]:
         if x["symbol"] == symbol:
-            price = x["quotes"][0]["price"] if x["quotes"][0]["price"] else None
-            percent_change_24h = (
-                x["quotes"][0]["percentChange24h"] if x["quotes"][0]["percentChange24h"] else None
+            current_price = x["quotes"][0]["price"] if x["quotes"][0]["price"] else None
+            percent_change_1h = (
+                x["quotes"][0]["percentChange1h"] if x["quotes"][0]["percentChange1h"] else None
             )
-            trend_24h_direction = "↗" if percent_change_24h >= 0 else "↘"
-            percent_change_24h_formatted = f"({trend_24h_direction}{round(percent_change_24h, 2)}%)"
-            return price, percent_change_24h_formatted
+            trend_direction = "↗" if percent_change_1h >= 0 else "↘"
+            percent_change_1h_formatted = f"({trend_direction}{round(percent_change_1h, 2)}%)"
+            return current_price, percent_change_1h_formatted
 
 
 if __name__ == "__main__":
     symbol = "GENE"
-    price, percent_change_24h = crypto_parser(symbol=symbol)
-    print(f"{symbol}: ${round(price,2)} {percent_change_24h}")
+    price, percent_change_1h = crypto_parser(symbol=symbol)
+    print(f"{symbol}: ${round(price,2)} {percent_change_1h}")
 
-    last_GENE_price = ftx_price_check(symbol="GENE")["last"]
-    print(last_GENE_price)
+    # last_GENE_price = ftx_price_check(symbol="GENE")["last"]
+    # print(last_GENE_price)
